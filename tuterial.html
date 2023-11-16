@@ -91,6 +91,33 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                countryInput: '',
+                countryName: '',
+                capital: '',
+                population: '',
+                error: ''
+            },
+            methods: {
+                searchCountry() {
+                    const apiUrl = 'https://restcountries.com/v3.1/name/${this.countryInput}'
+
+                    this.error = '';
+                    axios.get(apiUrl)
+                        .then(response => {
+
+                        })
+                        .catch(error => {
+                            console.error('Error fetching data', error);
+                            this.error = 'Error fetching data'
+                        })
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
