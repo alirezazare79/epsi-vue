@@ -114,6 +114,16 @@
                         console.error('Error fetching data:', error);
                         this.error = 'Error fetching data.';
                     }
+                },
+                displayCountryInfo(countryData) {
+                    if (countryData.length === 0) {
+                        this.error = "Country not found";
+                        return;
+                    }
+                    const country = countryData[0];
+                    this.countryName = country.name.common;
+                    this.capital = country.capital ? country.capital[0] : '';
+                    this.population = country.population || '';
                 }
             }
         });
