@@ -80,13 +80,13 @@
     <div id="app">
         <h1>Country Information</h1>
         <label for="countryInput">Enter Country:</label>
-        <input id="countryInput" placeholder="Type a country name">
-        <button>Search</button>
+        <input v-model="countryInput" id="countryInput" placeholder="Type a country name">
+        <button @click="searchCountry">Search</button>
         <div id="result">
             <h2>{{ countryName }}</h2>
-            <p>Capital: {{ capital }}</p>
-            <p>Population: {{ population }}</p>
-            <p>{{ error }}</p>
+            <p v-if="capital">Capital: {{ capital }}</p>
+            <p v-if="population">Population: {{ population }}</p>
+            <p v-if="error">{{ error }}</p>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
@@ -103,12 +103,12 @@
             },
             methods: {
                 async searchCountry() {
-                    const apiUrl = 'https://restcountries.com/v3.1/name/${this.countryInput}'
+                    const apiUrl = `https://restcountries.com/v3.1/name/${this.countryInput}`;
 
                     this.error = '';
                     try {
                         const response = await axios.get(apiUrl);
-
+                        this.displayCountryInfo(response.data);
 
                     } catch (error) {
                         console.error('Error fetching data:', error);
