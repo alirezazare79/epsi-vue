@@ -16,7 +16,7 @@
             align-items: center;
             height: 100vh;
         }
-        
+
         #app {
             background-color: #fff;
             border-radius: 8px;
@@ -24,17 +24,17 @@
             padding: 20px;
             text-align: center;
         }
-        
+
         h1 {
             color: #333;
         }
-        
+
         label {
             margin-right: 10px;
             font-weight: bold;
             color: #555;
         }
-        
+
         input {
             padding: 8px;
             margin-right: 10px;
@@ -42,7 +42,7 @@
             border-radius: 4px;
             font-size: 14px;
         }
-        
+
         button {
             padding: 8px 12px;
             background-color: #4caf50;
@@ -52,24 +52,24 @@
             cursor: pointer;
             font-size: 14px;
         }
-        
+
         button:hover {
             background-color: #45a049;
         }
-        
+
         #result {
             margin-top: 20px;
             color: #333;
         }
-        
+
         h2 {
             color: #4caf50;
         }
-        
+
         p {
             margin: 5px 0;
         }
-        
+
         p.error {
             color: #ff0000;
         }
@@ -82,10 +82,11 @@
         <label for="countryInput">Enter Country:</label>
         <input v-model="countryInput" id="countryInput" placeholder="Type a country name">
         <button @click="searchCountry">Search</button>
-        <div id="result">
+        <div id="result" v-bind:style="{ backgroundColor: regionColor }">
             <h2>{{ countryName }}</h2>
             <p v-if="capital">Capital: {{ capital }}</p>
             <p v-if="population">Population: {{ population }}</p>
+            <p v-if="region">Region: {{region}} </p>
             <p v-if="error">{{ error }}</p>
         </div>
     </div>
@@ -99,7 +100,8 @@
                 countryName: '',
                 capital: '',
                 population: '',
-                error: ''
+                error: '',
+                region : ''
             },
             methods: {
                 async searchCountry() {
@@ -124,6 +126,23 @@
                     this.countryName = country.name.common;
                     this.capital = country.capital ? country.capital[0] : '';
                     this.population = country.population || '';
+                    this.region = country.region || '';
+                },
+            },
+            computed:{
+                regionColor(){
+                    switch (this.region) {
+                        case 'Europe':
+                            return 'lightgreen';
+                        case  'Asia':
+                            return 'yellow';
+                        case 'Africa':
+                            return 'blue';
+                        case 'Americas':
+                            return 'orange'
+                        default:
+                            return 'white';
+                    }
                 }
             }
         });
