@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
+            background-color: #e9ecef;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,11 +19,14 @@
 
         #app {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
             text-align: center;
         }
+
 
         h1 {
             color: #333;
@@ -106,8 +109,8 @@
             methods: {
                 async searchCountry() {
                     const apiUrl = `https://restcountries.com/v3.1/name/${this.countryInput}`;
-
                     this.error = '';
+                    this.clearCountryInfo();
                     try {
                         const response = await axios.get(apiUrl);
                         this.displayCountryInfo(response.data);
@@ -115,11 +118,13 @@
                     } catch (error) {
                         console.error('Error fetching data:', error);
                         this.error = 'Error fetching data.';
+                        this.clearCountryInfo();
                     }
                 },
                 displayCountryInfo(countryData) {
                     if (countryData.length === 0) {
                         this.error = "Country not found";
+                        this.clearCountryInfo();
                         return;
                     }
                     const country = countryData[0];
@@ -128,6 +133,12 @@
                     this.population = country.population || '';
                     this.region = country.region || '';
                 },
+                clearCountryInfo(){
+                    this.countryName = '';
+                    this.capital = '';
+                    this.region = '';
+                    this.population = '';
+                }
             },
             computed:{
                 regionColor(){
@@ -143,7 +154,8 @@
                         default:
                             return 'white';
                     }
-                }
+                },
+
             }
         });
     </script>
